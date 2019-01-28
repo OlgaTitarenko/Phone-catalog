@@ -6,6 +6,9 @@ class PhonePage {
         this.catalog = new PhoneCatalog({
             elem: document.querySelector('[data-component="phone-catalog]')
         });
+        this.viewer = new PhoneViewe({
+            elem: document.querySelector('[data-component="phone-viewe"]')
+        });
         this._render();
     }
     _render() {
@@ -39,7 +42,8 @@ class PhonePage {
             '            \n' +
             '                    <!--Main content-->\n' +
             '                    <div class="col-md-10">\n' +
-            '                 '<div data-component="phone-catalog"></div>'+
+            '                 <div data-component="phone-catalog"></div>'+
+            '                 <div data-component="phone-viewe"></div>'+
             '                    </div>';
     }
 }

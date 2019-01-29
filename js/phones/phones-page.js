@@ -1,49 +1,62 @@
-'use strict';
+import PhoneCatalog from './catalog/phones-catalog.js';
+import PhoneViewer from './catalog/phone-viewe.js';
+import PhoneServise from './servises/phone-servises.js';
 
-class PhonePage {
+export default class PhonePage {
     constructor ({elem}) {
         this._element = elem;
-        this.catalog = new PhoneCatalog({
-            elem: document.querySelector('[data-component="phone-catalog]')
-        });
-        this.viewer = new PhoneViewe({
-            elem: document.querySelector('[data-component="phone-viewe"]')
-        });
         this._render();
+
+        this.catalog = new PhoneCatalog({
+            elem: document.querySelector('[data-component="phone-catalog"]'),
+            phones: PhoneServise.getAll(),
+            onPhoneSelected : (phoneId) => {
+                const phoneDetails = PhoneServise.getById(phoneId);
+                this.catalog.hide();
+                this.viewer.show(phoneDetails);
+            }
+        });
+        this.viewer = new PhoneViewer({
+            elem: document.querySelector('[data-component="phone-viewer"]')
+        });
     }
     _render() {
-        this._element.innerHTML = '<div class="row">\n' +
-            '            <!--Sidebar-->\n' +
-            '                    <div class="col-md-2">\n' +
-            '                        <section>\n' +
-            '                            <p>\n' +
-            '                                Search:\n' +
-            '                                <input>\n' +
-            '                            </p>\n' +
-            '            \n' +
-            '                            <p>\n' +
-            '                                Sort by:\n' +
-            '                                <select>\n' +
-            '                                    <option value="name">Alphabetical</option>\n' +
-            '                                    <option value="age">Newest</option>\n' +
-            '                                </select>\n' +
-            '                            </p>\n' +
-            '                        </section>\n' +
-            '            \n' +
-            '                        <section>\n' +
-            '                            <p>Shopping Cart</p>\n' +
-            '                            <ul>\n' +
-            '                                <li>Phone 1</li>\n' +
-            '                                <li>Phone 2</li>\n' +
-            '                                <li>Phone 3</li>\n' +
-            '                            </ul>\n' +
-            '                        </section>\n' +
-            '                    </div>\n' +
-            '            \n' +
-            '                    <!--Main content-->\n' +
-            '                    <div class="col-md-10">\n' +
-            '                 <div data-component="phone-catalog"></div>'+
-            '                 <div data-component="phone-viewe"></div>'+
-            '                    </div>';
+        this._element.innerHTML = `
+      <div class="row">
+
+        <!--Sidebar-->
+        <div class="col-md-2">
+          <section>
+            <p>
+              Search:
+              <input>
+            </p>
+    
+            <p>
+              Sort by:
+              <select>
+                <option value="name">Alphabetical</option>
+                <option value="age">Newest</option>
+              </select>
+            </p>
+          </section>
+    
+          <section>
+            <p>Shopping Cart</p>
+            <ul>
+              <li>Phone 1</li>
+              <li>Phone 2</li>
+              <li>Phone 3</li>
+            </ul>
+          </section>
+        </div>
+    
+        <!--Main content-->
+        <div class="col-md-10">
+          <div data-component="phone-catalog"></div>
+          <div data-component="phone-viewer" hidden></div>
+        </div>
+      </div>
+    `;
     }
 }

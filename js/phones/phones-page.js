@@ -17,7 +17,11 @@ export default class PhonePage {
             }
         });
         this.viewer = new PhoneViewer({
-            elem: document.querySelector('[data-component="phone-viewer"]')
+            elem: document.querySelector('[data-component="phone-viewer"]'),
+            onBack: () =>{
+                this.catalog.show();
+                this.viewer.hide();
+            }
         });
     }
     _render() {

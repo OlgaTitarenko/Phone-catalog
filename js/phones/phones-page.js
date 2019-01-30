@@ -1,7 +1,7 @@
 import PhoneCatalog from './catalog/phones-catalog.js';
 import PhoneViewer from './catalog/phone-viewe.js';
 import PhoneServise from './servises/phone-servises.js';
-console.log('work with smile =^_^=');
+
 export default class PhonePage {
     constructor ({elem}) {
         this._element = elem;
@@ -64,3 +64,6 @@ export default class PhonePage {
     `;
     }
 }
+
+
+console.log('work with smile =^_^=');

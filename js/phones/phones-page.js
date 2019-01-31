@@ -1,12 +1,22 @@
 import PhoneCatalog from './catalog/phones-catalog.js';
 import PhoneViewer from './catalog/phone-viewe.js';
+import ShoppingCard from './catalog/shopping-card.js';
+import Filter from './catalog/filter.js';
 import PhoneServise from './servises/phone-servises.js';
+
 console.log('work with smile =^_^=');
+
 export default class PhonePage {
     constructor ({elem}) {
         this._element = elem;
         this._render();
+        this._initcatalog();
+        this._initViewer();
+        this._initShoppingCard();
+        this._initFilter();
 
+    }
+    _initcatalog() {
         this.catalog = new PhoneCatalog({
             elem: document.querySelector('[data-component="phone-catalog"]'),
             phones: PhoneServise.getAll(),
@@ -16,6 +26,8 @@ export default class PhonePage {
                 this.viewer.show(phoneDetails);
             }
         });
+    };
+    _initViewer(){
         this.viewer = new PhoneViewer({
             elem: document.querySelector('[data-component="phone-viewer"]'),
             onBack: () =>{
@@ -23,7 +35,18 @@ export default class PhonePage {
                 this.viewer.hide();
             }
         });
-    }
+    };
+    _initShoppingCard(){
+        this.shoppingCard = new ShoppingCard({
+            elem: document.querySelector('[data-component="shopping-card"]')
+        });
+    };
+    _initFilter(){
+        this.filter = new Filter({
+            elem: document.querySelector('[data-component="filter"]')
+        });
+    };
+
     _render() {
         this._element.innerHTML = `
       <div class="row">
@@ -31,30 +54,13 @@ export default class PhonePage {
         <!--Sidebar-->
         <div class="col-md-2">
           <section>
-            <p>
-              Search:
-              <input>
-            </p>
-    
-            <p>
-              Sort by:
-              <select>
-                <option value="name">Alphabetical</option>
-                <option value="age">Newest</option>
-              </select>
-            </p>
+            <div data-component="filter"></div>
           </section>
     
           <section>
-            <p>Shopping Cart</p>
-            <ul>
-              <li>Phone 1</li>
-              <li>Phone 2</li>
-              <li>Phone 3</li>
-            </ul>
+            <div data-component="shopping-card"></div>
           </section>
-        </div>
-    
+        </div>    
         <!--Main content-->
         <div class="col-md-10">
           <div data-component="phone-catalog"></div>

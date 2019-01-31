@@ -11,11 +11,10 @@ export default class Component {
     on(eventName, selector, callback) {
         this._element.addEventListener(eventName, (event) => {
             let delegateTarget = event.target.closest(selector);
-
             if(!delegateTarget){
                 return;
             }
             callback(event);
-        })
+        });
     }
 }

@@ -18,7 +18,7 @@ export default class PhoneCatalog extends Component{
             if (!detailsLink){
                 return;
             }
-            let phoneElement = event.target.closest('[ data-element="phone"]');
+            let phoneElement = detailsLink.closest('[ data-element="phone"]');
 
             this._onPhoneSelected(phoneElement.dataset.phoneId);
         });

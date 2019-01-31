@@ -1,24 +1,24 @@
-import Component from '../../component.js'
+import Component from '../../component.js';
 
-export default class Filter extends Component{
-    constructor ({elem}) {
-        super({elem});
+export default class Filter extends Component {
+    constructor({ elem }) {
+        super({ elem });
         this._render();
     }
-    _render(){
+
+    _render() {
         this._element.innerHTML = `
-             <p>
-              Search:
-              <input>
-            </p>
-    
-            <p>
-              Sort by:
-              <select>
-                <option value="name">Alphabetical</option>
-                <option value="age">Newest</option>
-              </select>
-            </p>
+      <p>
+        Search:
+        <input>
+      </p>
+      <p>
+        Sort by:
+        <select>
+          <option value="name">Alphabetical</option>
+          <option value="age">Newest</option>
+        </select>
+      </p>
     `;
     }
 }

@@ -4,33 +4,31 @@ export default class PhoneCatalog extends Component{
     constructor({
                     elem,
                     phones = [],
-                    onPhoneSelected = () => {}
                 }) {
         super({ elem });
         this._phones = phones;
-        this._onPhoneSelected = onPhoneSelected;
 
         this._render();
+        this.on('click', "detailsLink", (event) => {
+            let phoneElement = event.target.closest('[data-element="phone"]');
 
-        this._element.addEventListener( 'click', (event) =>{
-            let detailsLink = event.target.closest('[ data-element="detailsLink"]');
-
-            if (!detailsLink){
-                return;
-            }
-            let phoneElement = detailsLink.closest('[ data-element="phone"]');
-
-            this._onPhoneSelected(phoneElement.dataset.phoneId);
+            this.emit('phone-selected', phoneElement.dataset.phoneId);
+        });
+        this.on('click', "addButton", () => {
+            this.emit('added', this._phones.id)
         });
     }
 
 
-    _render()
-    {
+    _render() {
         this._element.innerHTML = `
             <ul class="phones">
             ${ this._phones.map(phone => `
-             <li class="thumbnail" data-element="phone" data-phone-id="${phone.id}">
+             <li 
+                class="thumbnail" 
+                data-element="phone" 
+                data-phone-id="${phone.id}"
+             >
             <a 
                 data-element="detailsLink" 
                 href="#!/phones/${ phone.id}" 
@@ -39,7 +37,9 @@ export default class PhoneCatalog extends Component{
               <img alt="${ phone.name }" src="${ phone.imageUrl}">
             </a>
 
-            <div class="phones__btn-buy-wrapper">
+            <div 
+                data-element="addButton"
+                class="phones__btn-buy-wrapper">
               <a class="btn btn-success">
                 Add
               </a>

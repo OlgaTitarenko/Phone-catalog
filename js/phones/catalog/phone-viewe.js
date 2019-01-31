@@ -1,23 +1,20 @@
 import Component from '../../component.js';
 
 export default class PhoneViewer extends Component{
-    constructor({ elem, onBack }) {
+    constructor({ elem }) {
         super({elem});
-        this._onBack = onBack;
-     //   this.on('click','[data-element="backButton"]',onBack());
-        this._element.addEventListener('click',(event) => {
-            const backButton = event.target.closest('[data-element="backButton"]');
-            if (!backButton){
-                return;
-            }
-            this._onBack();
+        this._phoneDetails = null;
+        this.on('click', "backButton", () => {
+            this.emit('back');
         });
-        this._element.addEventListener('click',(event) => {
-            const smallImage = event.target.closest('[data-element="small-image"]');
-            if (!smallImage){
-                return;
-            }
+
+        this.on('click', "small-image", (event)  => {
+            const smallImage = event.target;
             this._element.querySelector('[ data-element="bigImage"]').src = smallImage.src;
+        });
+
+        this.on('click', "addButton", () => {
+            this.emit('added', this._phoneDetails.id)
         });
     }
 
@@ -37,7 +34,7 @@ export default class PhoneViewer extends Component{
             src="${ phone.images[0] }"
            >
           <button data-element="backButton" >Back</button>
-          <button>Add to basket</button>
+          <button data-element="addButton">Add to basket</button>
           <h1>${ phone.name }</h1>
           <p>${ phone.description }</p>
           <ul class="phone-thumbs">

@@ -2,7 +2,7 @@ import PhoneCatalog from './catalog/phones-catalog.js';
 import PhoneViewer from './catalog/phone-viewe.js';
 import ShoppingCard from './catalog/shopping-card.js';
 import Filter from './catalog/filter.js';
-import PhoneServise from './servises/phone-servises.js';
+import PhoneService from './servises/phone-servises.js';
 
 console.log('work with smile =^_^=');
 
@@ -10,30 +10,35 @@ export default class PhonePage {
     constructor ({elem}) {
         this._element = elem;
         this._render();
-        this._initcatalog();
+        this._initCatalog();
         this._initViewer();
         this._initShoppingCard();
         this._initFilter();
 
     }
-    _initcatalog() {
+    _initCatalog() {
         this.catalog = new PhoneCatalog({
             elem: document.querySelector('[data-component="phone-catalog"]'),
-            phones: PhoneServise.getAll(),
-            onPhoneSelected : (phoneId) => {
-                const phoneDetails = PhoneServise.getById(phoneId);
-                this.catalog.hide();
-                this.viewer.show(phoneDetails);
-            }
+            phones: PhoneService.getAll()});
+
+        this.catalog.subscribe('phone-selected', (phoneId) => {
+            const phoneDetails = PhoneService.getById(phoneId);
+
+            this.catalog.hide();
+            this.viewer.show(phoneDetails);
         });
+
     };
     _initViewer(){
         this.viewer = new PhoneViewer({
-            elem: document.querySelector('[data-component="phone-viewer"]'),
-            onBack: () =>{
-                this.catalog.show();
-                this.viewer.hide();
-            }
+            elem: document.querySelector('[data-component="phone-viewer"]')
+        });
+        this.viewer.subscribe('back', () => {
+            this.viewer.hide();
+            this.catalog.show();
+        });
+        this.viewer.subscribe('added', (phoneId) => {
+            this.shoppingCard.add(phoneId);
         });
     };
     _initShoppingCard(){

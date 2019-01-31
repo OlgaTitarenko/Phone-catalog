@@ -1,6 +1,7 @@
 export default class Component {
     constructor({elem}) {
         this._element = elem;
+
     }
     hide() {
         this._element.hidden = true;
@@ -8,13 +9,28 @@ export default class Component {
     show() {
         this._element.hidden = false;
     }
-    on(eventName, selector, callback) {
+
+    on(eventName, elementName, callback) {
         this._element.addEventListener(eventName, (event) => {
-            let delegateTarget = event.target.closest(selector);
-            if(!delegateTarget){
+            let delegateTarget = event.target.closest(`[data-element=${ elementName }]`);
+
+            if (!delegateTarget || !this._element.contains(delegateTarget)) {
                 return;
             }
+
             callback(event);
         });
+    }
+
+    subscribe(eventName, callback) {
+        this._element.addEventListener(eventName, (event) => {
+            callback(event.detail);
+        });
+    }
+
+    emit(eventName, data) {
+        let customEvent = new CustomEvent(eventName, {detail: data});
+
+        this._element.dispatchEvent(customEvent);
     }
 }

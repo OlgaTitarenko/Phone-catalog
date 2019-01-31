@@ -1425,7 +1425,7 @@ const phoneDetails = [
     }
 ];
 
-const PhoneServise = {
+const PhoneServiсe = {
     getAll() {
         return phonesFromServer;
     },
@@ -1435,4 +1435,4 @@ const PhoneServise = {
     }
 };
 
-export default PhoneServise;
+export default PhoneServiсe;

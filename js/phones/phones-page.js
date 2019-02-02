@@ -28,6 +28,10 @@ export default class PhonePage {
             this.viewer.show(phoneDetails);
         });
 
+        this.catalog.subscribe('add', (phoneId) => {
+            this.shoppingCard.add(phoneId);
+        });
+
     };
     _initViewer(){
         this.viewer = new PhoneViewer({
@@ -37,7 +41,7 @@ export default class PhonePage {
             this.viewer.hide();
             this.catalog.show();
         });
-        this.viewer.subscribe('added', (phoneId) => {
+        this.viewer.subscribe('add', (phoneId) => {
             this.shoppingCard.add(phoneId);
         });
     };
@@ -45,6 +49,7 @@ export default class PhonePage {
         this.shoppingCard = new ShoppingCard({
             elem: document.querySelector('[data-component="shopping-card"]')
         });
+
     };
     _initFilter(){
         this.filter = new Filter({

@@ -1,7 +1,7 @@
 export default class Component {
     constructor({elem}) {
         this._element = elem;
-
+        this._callbackMap = {};
     }
     hide() {
         this._element.hidden = true;
@@ -23,14 +23,22 @@ export default class Component {
     }
 
     subscribe(eventName, callback) {
-        this._element.addEventListener(eventName, (event) => {
-            callback(event.detail);
-        });
+        if (!this._callbackMap[eventName]) {
+            this._callbackMap[eventName] = [];
+        }
+
+        this._callbackMap[eventName].push(callback);
     }
 
     emit(eventName, data) {
-        let customEvent = new CustomEvent(eventName, {detail: data});
+        const eventCallbacks = this._callbackMap[eventName];
 
-        this._element.dispatchEvent(customEvent);
+        if (!eventCallbacks) {
+            return;
+        }
+
+        eventCallbacks.forEach(callback => {
+            callback(data);
+        });
     }
 }

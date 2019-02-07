@@ -1,5 +1,5 @@
-import PhonePage from'./phones/phones-page.js';
+import PhonesPage from './phones/phones-page.js';
 
- let currentPage = new PhonePage({
-    elem: document.querySelector('[data-page-conteiner]')
+let currentPage = new PhonesPage({
+    element: document.querySelector('[data-page-container]')
 });
